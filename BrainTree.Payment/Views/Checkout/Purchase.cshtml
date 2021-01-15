@@ -1,0 +1,35 @@
+﻿@model CarPurchaseViewModel
+
+<div class="wrapper">
+    <div class="checkout container">
+        <form id="payment-form" method="post" asp-controller="Checkout" asp-action="Create">
+            @Html.HiddenFor(m => m.Id)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" name="Titile" asp-for="@Model.Title">@Model.Title</h5>
+                    <p class="card-text"></p>
+                    <p class="card-text"></p>
+                    <p class="card-text"><small class="text-muted">Category: @Model.Category.Name </small></p>
+                    <p class="card-text"><small class="text-muted">Price: @Model.Price.ToString("C") </small></p>
+                </div>
+                <img style="width: 90%" class="card-img-bottom" src="@Model.ImageUrl" alt="Card image cap">
+            </div>
+            <section>
+                <div class="bt-drop-in-wrapper">
+                    <div id="bt-dropin"></div>
+                </div>
+            </section>        
+            @Html.HiddenFor(m => m.Nonce, new {@id = "nonce"})
+            <hr/>
+            <button class="btn btn-success" type="submit"><span>Confirm payment - $@Model.Price</span></button>
+        </form>
+        <script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+    </div>
+</div>
+<script>
+    var client_token = "@ViewBag.ClientToken";
+    braintree.dropin.create({
+        authorization: client_token,
+        container: '#bt-dropin'
+    })
+</script>

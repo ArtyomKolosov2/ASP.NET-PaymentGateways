@@ -1,5 +1,7 @@
-﻿using BrainTree.Payment.Data.Models;
+﻿using BrainTree.Payment.Data.Context;
+using BrainTree.Payment.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,14 +15,18 @@ namespace BrainTree.Payment.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly AppDbContext _appDbContext;
+
+        public HomeController(AppDbContext appDbContext, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _appDbContext = appDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var cars = await _appDbContext.Cars.Include("Category").ToListAsync();
+            return View(cars);
         }
 
         public IActionResult Privacy()

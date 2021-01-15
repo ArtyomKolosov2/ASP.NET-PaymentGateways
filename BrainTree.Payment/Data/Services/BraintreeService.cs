@@ -1,10 +1,6 @@
 ﻿using Braintree;
 using BrainTree.Payment.Data.Services.Base;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BrainTree.Payment.Data.Services
 {

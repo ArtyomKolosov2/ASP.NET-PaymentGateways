@@ -12,7 +12,7 @@
                     <p class="card-text"><small class="text-muted">Category: @Model.Category.Name </small></p>
                     <p class="card-text"><small class="text-muted">Price: @Model.Price.ToString("C") </small></p>
                 </div>
-                <img style="width: 90%" class="card-img-bottom" src="@Model.ImageUrl" alt="Card image cap">
+                <img style="width: 90%" class="card-img-bottom" src="@Url.Content(Model.ImageUrl)" alt="Card image cap">
             </div>
             <section>
                 <div class="bt-drop-in-wrapper">
@@ -28,8 +28,23 @@
 </div>
 <script>
     var client_token = "@ViewBag.ClientToken";
+    var form = document.querySelector('#payment-form');
     braintree.dropin.create({
         authorization: client_token,
-        container: '#bt-dropin'
-    })
+        container: '#bt-dropin',
+        paypal: {
+            flow: 'vault'
+        }
+    }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            instance.requestPaymentMethod(function (err, payload) {
+                if (err) {
+                    return;
+                }
+                document.querySelector('#nonce').value = payload.nonce;
+                form.submit();
+            });
+        });
+    });
 </script>

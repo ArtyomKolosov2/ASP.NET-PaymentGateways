@@ -30,7 +30,7 @@ namespace BrainTree.Payment
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
             services.AddTransient<IBraintreeService, BraintreeService>();
-            services.AddControllersWithViews();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

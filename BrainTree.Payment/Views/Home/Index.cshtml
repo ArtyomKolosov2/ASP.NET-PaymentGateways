@@ -1,8 +1,20 @@
-﻿@{
+﻿@model IEnumerable<Car>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to my study project!</h1>
+    <section class="row mb-2">
+        <div class="cards">
+            @{
+                foreach (var car in Model)
+                {
+                    @await Html.PartialAsync("ShowCar", car)
+                }
+            }
+        </div>
+    </section>
+    
 </div>
